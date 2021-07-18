@@ -44,7 +44,7 @@ public class InputManager : MonoBehaviour
     {
         HandleMovementInput();
         // HandleJump
-        //HandleAttack
+        // HandleAttack
     }
     private void HandleMovementInput() 
     {

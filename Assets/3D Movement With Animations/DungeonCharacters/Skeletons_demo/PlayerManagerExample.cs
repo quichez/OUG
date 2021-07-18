@@ -1,18 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MLAPI;
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManagerExample : NetworkBehaviour
 {
     InputManager inputManager;
-    CameraManager cameraManager;
-    PlayerMovement playerMovement;
+    SceneManager cameraManager;
+    PlayeLocomotion playerMovement;
+
     private void Awake() 
     {       
         inputManager = GetComponent<InputManager>();
-        cameraManager = FindObjectOfType<CameraManager>();
-        playerMovement = GetComponent<PlayerMovement>();
-        
+        cameraManager = FindObjectOfType<SceneManager>();
+        playerMovement = GetComponent<PlayeLocomotion>();     
     }
 
     void Update()

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayeLocomotion : MonoBehaviour
 {
     InputManager inputManager;
     Vector3 moveDirection;    

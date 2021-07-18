@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraManager : MonoBehaviour
+public class SceneManager : MonoBehaviour
 {
     InputManager inputManager;
 
@@ -26,7 +26,7 @@ public class CameraManager : MonoBehaviour
 
     private void Awake() 
     {
-        targetTransform = FindObjectOfType<PlayerManager>().transform;
+        targetTransform = FindObjectOfType<PlayerManagerExample>().transform;
         inputManager = FindObjectOfType<InputManager>();
         cameraTransform = Camera.main.transform;
         defaultPosition = cameraTransform.localPosition.z;

@@ -2,7 +2,13 @@ fileFormatVersion: 2
 guid: efbaee11a3bdda344bfc51a02ccee5dc
 ModelImporter:
   serializedVersion: 20200
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      74: -143449954047745514
+    second: Plane|Lower Gate
+  - first:
+      74: -2691619380627189145
+    second: Plane|Raise Gate
   externalObjects: {}
   materials:
     materialImportMode: 2

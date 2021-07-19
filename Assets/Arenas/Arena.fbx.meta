@@ -9,6 +9,12 @@ ModelImporter:
   - first:
       74: -2691619380627189145
     second: Plane|Raise Gate
+  - first:
+      74: 3323685485205013082
+    second: Gate|Lower Gate
+  - first:
+      74: 4014521529722338415
+    second: Gate|Raise Gate
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -42,7 +48,7 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 0
+    addColliders: 1
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
     importVisibility: 1

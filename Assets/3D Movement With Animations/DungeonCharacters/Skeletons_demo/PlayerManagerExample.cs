@@ -6,14 +6,14 @@ using MLAPI;
 public class PlayerManagerExample : NetworkBehaviour
 {
     InputManager inputManager;
-    SceneManager cameraManager;
-    PlayeLocomotion playerMovement;
+    CameraManager cameraManager;
+    PlayerLocomotion playerMovement;
 
     private void Awake() 
     {       
         inputManager = GetComponent<InputManager>();
-        cameraManager = FindObjectOfType<SceneManager>();
-        playerMovement = GetComponent<PlayeLocomotion>();     
+        cameraManager = FindObjectOfType<CameraManager>();
+        playerMovement = GetComponent<PlayerLocomotion>();     
     }
 
     void Update()

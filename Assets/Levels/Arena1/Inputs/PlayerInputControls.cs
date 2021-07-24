@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/Networking/Movement/PlayerInputControls.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/Levels/Arena1/Inputs/PlayerInputControls.inputactions'
 
 using System;
 using System.Collections;

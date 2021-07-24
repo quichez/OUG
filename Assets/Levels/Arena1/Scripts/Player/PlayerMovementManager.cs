@@ -7,7 +7,7 @@ using Cinemachine;
 namespace JAM
 {
     [RequireComponent(typeof(CharacterController))]
-    public class PlayerMovement : NetworkBehaviour
+    public class PlayerMovementManager : MonoBehaviour
     {
         private CharacterController controller;
         private PlayerInputManager inputManager;
@@ -15,7 +15,8 @@ namespace JAM
 
 
         private Vector3 playerVelocity;
-        private bool groundedPlayer;
+        public bool groundedPlayer;
+        public LayerMask layerMask;
 
         [SerializeField] private float playerSpeed = 5f;
         [SerializeField] private float jumpHeight = 1.0f;
@@ -24,44 +25,32 @@ namespace JAM
 
         private void Start()
         {
-            if (!IsLocalPlayer)
-            {
-                GetComponentInChildren<CinemachineFreeLook>().gameObject.SetActive(false);
-            }
-            else
-            {
-                controller = GetComponent<CharacterController>();
-                inputManager = GetComponent<PlayerInputManager>();
-                cameraObjectTransform = GetComponentInChildren<Camera>().transform;
-                cameraObjectTransform.parent.GetComponentInChildren<CinemachineInputProvider>().PlayerIndex = (int)NetworkManager.Singleton.LocalClientId; // Used to avoid shared camera controls.
-                Cursor.lockState = CursorLockMode.Locked;
-            }
-
+            controller = GetComponent<CharacterController>();
+            inputManager = GetComponent<PlayerInputManager>();
+            cameraObjectTransform = GetComponentInChildren<Camera>().transform;
+            cameraObjectTransform.parent.GetComponentInChildren<CinemachineInputProvider>().PlayerIndex = (int)NetworkManager.Singleton.LocalClientId; // Used to avoid shared camera controls.
+            Cursor.lockState = CursorLockMode.Locked;            
         }
 
-        void Update()
+        public void HandleAllMovement()
         {
-            if (!IsLocalPlayer) return;
-
-            inputManager.HandleAllInputs();
+            RaycastHit hit;
+            
+            groundedPlayer = Physics.SphereCast(transform.position, 0, Vector3.down, out hit, 0.2f, layerMask);
             Move();
         }
 
         private void Move()
         {
-            groundedPlayer = controller.isGrounded;
             if (groundedPlayer && playerVelocity.y < 0)
             {
                 playerVelocity.y = 0f;
             }
 
-
-            // Movement
             Vector3 move = new Vector3(inputManager.horizontalInput, 0, inputManager.verticalInput);
             move = cameraObjectTransform.forward * move.z + cameraObjectTransform.right * move.x;
             move.y = 0;
             controller.Move(move * Time.deltaTime * playerSpeed);
-
 
             // Jump
             if (inputManager.jump && groundedPlayer)
@@ -71,7 +60,6 @@ namespace JAM
 
             playerVelocity.y += gravityValue * Time.deltaTime;
             controller.Move(playerVelocity * Time.deltaTime);
-
 
             // Rotation
             if (inputManager.moveInput != Vector2.zero)

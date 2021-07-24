@@ -21,6 +21,8 @@ namespace JAM
         public bool attackInput;
 
 
+
+
         private void OnEnable()
         {
             if (inputs == null)
@@ -29,11 +31,11 @@ namespace JAM
 
                 inputs.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
 
-                inputs.Player.Jump.performed += ctx => jumpInput = ctx.action.triggered;
-                inputs.Player.Jump.canceled += ctx => jumpInput = ctx.action.triggered;
+                inputs.Player.Jump.performed += ctx => jumpInput = true;
+                inputs.Player.Jump.canceled += ctx => jumpInput = false;
 
-                inputs.Player.Attack.performed += ctx => attackInput = ctx.action.triggered;
-                inputs.Player.Attack.canceled += ctx => attackInput = ctx.action.triggered;
+                inputs.Player.Attack.performed += ctx => attackInput = true;
+                inputs.Player.Attack.canceled += ctx => attackInput = false;
             }
 
             inputs.Enable();

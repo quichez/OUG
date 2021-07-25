@@ -7,14 +7,14 @@ using Cinemachine;
 namespace JAM
 {
     [RequireComponent(typeof(CharacterController))]
-    public class PlayerMovementManager : MonoBehaviour
+    public class PlayerMovementManager : NetworkBehaviour
     {
         private CharacterController controller;
         private PlayerInputManager inputManager;
         Transform cameraObjectTransform;
 
 
-        private Vector3 playerVelocity;
+        public Vector3 playerVelocity;
         public bool groundedPlayer;
         public LayerMask layerMask;
 
@@ -25,6 +25,8 @@ namespace JAM
 
         private void Start()
         {
+            if (!IsLocalPlayer) return;
+
             controller = GetComponent<CharacterController>();
             inputManager = GetComponent<PlayerInputManager>();
             cameraObjectTransform = GetComponentInChildren<Camera>().transform;
@@ -42,9 +44,9 @@ namespace JAM
 
         private void Move()
         {
-            if (groundedPlayer && playerVelocity.y < 0)
+            if (groundedPlayer)
             {
-                playerVelocity.y = 0f;
+                playerVelocity.y = -1f;
             }
 
             Vector3 move = new Vector3(inputManager.horizontalInput, 0, inputManager.verticalInput);

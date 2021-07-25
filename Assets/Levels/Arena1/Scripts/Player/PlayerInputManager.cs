@@ -9,7 +9,6 @@ namespace JAM
     {
         PlayerInputControls inputs;
 
-
         public Vector2 moveInput;
         public float verticalInput;
         public float horizontalInput;

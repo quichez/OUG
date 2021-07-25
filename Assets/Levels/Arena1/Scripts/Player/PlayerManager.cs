@@ -19,15 +19,15 @@ namespace JAM
         {
             if (!IsLocalPlayer)
             {
-                GetComponentInChildren<CinemachineFreeLook>().gameObject.SetActive(false);
+                GetComponentInChildren<CameraParent>().gameObject.SetActive(false);
+
             }
             else
             {
                 inputManager = GetComponent<PlayerInputManager>();
                 movementManager = GetComponent<PlayerMovementManager>();
-                animationManager = GetComponent<PlayerAnimationManager>();
-            }
-            
+                animationManager = GetComponentInChildren<PlayerAnimationManager>();
+            }            
         }
 
         // Update is called once per frame
@@ -38,8 +38,6 @@ namespace JAM
             inputManager.HandleAllInputs();
             movementManager.HandleAllMovement();
             animationManager.HandleAnimations();
-
-
         }
     }
 }

@@ -2,58 +2,89 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MLAPI;
 
 namespace JAM
 {
-    public class PlayerAnimationManager : MonoBehaviour
+    public class PlayerAnimationManager : NetworkBehaviour
     {
         PlayerInputManager inputs;
+        PlayerMovementManager movementManager;
         Animator animator;
-        CharacterController controller;
+        
 
         int horizontal;
         int vertical;
-        int attack;
+
 
         private float moveAmount;
 
+        public bool attackAvail;
+        public int comboParam;
+        public int comboStage;
+
         private void Start()
         {
-            inputs = GetComponent<PlayerInputManager>();
+            if (!IsLocalPlayer) return;
+
+            inputs = GetComponentInParent<PlayerInputManager>();
+            movementManager = GetComponentInParent<PlayerMovementManager>();
             animator = GetComponent<Animator>();
-            controller = GetComponent<CharacterController>();
 
             horizontal = Animator.StringToHash("Horizontal");
             vertical = Animator.StringToHash("Vertical");
-            attack = Animator.StringToHash("Attack");
+            comboParam = Animator.StringToHash("Combo");
+
+            attackAvail = true;
+            comboStage = 0;
         }
 
         public void HandleAnimations()
         {
-            RaycastHit hit;
+            moveAmount = Mathf.Clamp01(Mathf.Abs(inputs.horizontalInput) + Mathf.Abs(inputs.verticalInput));
+            MovementAnimatorValues(0, moveAmount);
 
-            if (Physics.SphereCast(transform.position, 0, Vector3.down, out hit, 0.2f))
-            {
-                moveAmount = Mathf.Clamp01(Mathf.Abs(inputs.horizontalInput) + Mathf.Abs(inputs.verticalInput));
-                MovementAnimatorValues(0, moveAmount);
-            }            
-
-                
+            AttackAnimation();
         }
 
         private void AttackAnimation()
         {
-            animator.SetTrigger(attack);
+            if (inputs.attack && attackAvail)
+            {
+                attackAvail = false;
+                comboStage++;
+                animator.SetInteger(comboParam, comboStage);                            
+            }
         }
 
-        public void MovementAnimatorValues(float horizontalMovement, float verticalMovement)
+        private void MovementAnimatorValues(float horizontalMovement, float verticalMovement)
         {
-            if (controller.isGrounded)
+            if (movementManager.groundedPlayer)
             {
                 animator.SetFloat(horizontal, horizontalMovement, 0.1f, Time.deltaTime);
                 animator.SetFloat(vertical, verticalMovement, 0.1f, Time.deltaTime);
-            }            
+            }
+            else
+            {
+                animator.SetFloat(horizontal, 0, 0.1f, Time.deltaTime);
+                animator.SetFloat(vertical, 0, 0.1f, Time.deltaTime);
+            }
         }
+
+        private void AttackEnding()
+        {
+            attackAvail = true;
+            Debug.Log("AttackEnding");
+        }
+
+        private void AttackEnded()
+        {
+            attackAvail = true;
+            comboStage = 0;
+            animator.SetInteger(comboParam, comboStage);
+            Debug.Log("AttackEnded");
+        }
+
     }
 }
 

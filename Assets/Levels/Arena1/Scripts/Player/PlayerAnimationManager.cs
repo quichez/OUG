@@ -53,7 +53,7 @@ namespace JAM
             {
                 attackAvail = false;
                 comboStage++;
-                animator.SetInteger(comboParam, comboStage);                            
+                animator.SetInteger(comboParam, comboStage);
             }
         }
 

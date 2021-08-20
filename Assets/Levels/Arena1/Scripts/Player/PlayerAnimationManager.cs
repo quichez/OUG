@@ -73,12 +73,14 @@ namespace JAM
 
         private void AttackEnding()
         {
+            if (!IsLocalPlayer) return;
             attackAvail = true;
             Debug.Log("AttackEnding");
         }
 
         private void AttackEnded()
         {
+            if (!IsLocalPlayer) return;
             attackAvail = true;
             comboStage = 0;
             animator.SetInteger(comboParam, comboStage);

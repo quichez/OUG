@@ -8,8 +8,11 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: d1c3109bdb54ad54c8a2b2838528e640
-  - enabled: 1
-    path: Assets/Networking/NetworkingSetupScene.unity
+  - enabled: 0
+    path: Assets/Networking/Example/NetworkingSetupScene.unity
     guid: 7cffdc7da0e8f9649a8bd3452f7963be
+  - enabled: 1
+    path: Assets/Levels/Arena1/Scenes/Arena1.unity
+    guid: e5dfb415b5f8d1b41a2bc14c091c17a6
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 9e7be553448fa2546aea5752021cbcf7, type: 2}

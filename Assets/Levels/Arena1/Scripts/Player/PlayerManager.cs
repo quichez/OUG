@@ -21,7 +21,10 @@ namespace JAM
         public void OnEnable()
         {
             if (healthSystem == null)
-                healthSystem = new HealthSystem(100, 50, 1, 1.0f);
+            {
+                healthSystem = new HealthSystem(100,100,1,0.5f);
+                StartCoroutine(healthSystem.Regenerate(Time.deltaTime * 2.0f));
+            }
 
             healthSystem.Current.OnValueChanged += OnHealthChanged;
         }
@@ -33,15 +36,13 @@ namespace JAM
 
         private void OnHealthChanged(int previousValue, int newValue)
         {
-            if(IsOwner /*&& IsClient*/)
-            {
+            if(IsOwner && IsClient)
+            {                
                 StartCoroutine(healthSystem.Regenerate(Time.deltaTime * 2.0f));
                 healthBar.UpdateHealthBar(healthSystem);
             }
         }
 
-
-        // Start is called before the first frame update
         void Start()
         {           
             if (!IsLocalPlayer)
@@ -59,7 +60,6 @@ namespace JAM
             }            
         }
 
-        // Update is called once per frame
         void Update()
         {            
             if (!IsLocalPlayer) return;      
@@ -67,6 +67,16 @@ namespace JAM
             inputManager.HandleAllInputs();
             movementManager.HandleAllMovement();
             animationManager.HandleAnimations();
+            Debug.Log(healthBar);
+        }
+
+        public void TakeDamage(int damage)
+        {
+            if (!IsLocalPlayer)
+            {
+                healthSystem.TakeDamage(5);                
+                healthBar.UpdateHealthBar(healthSystem);
+            }
         }
     }
 }

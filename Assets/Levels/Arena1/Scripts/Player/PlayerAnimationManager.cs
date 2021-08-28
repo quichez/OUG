@@ -75,6 +75,17 @@ namespace JAM
         {
             if (!IsLocalPlayer) return;
             attackAvail = true;
+
+            bool isHit = Physics.BoxCast(transform.position + transform.up * 1.25f, new Vector3(0.25f, 1.0f, 0.25f), transform.forward, out RaycastHit hit, transform.rotation, 0.5f);
+            if (isHit)
+            {                
+                if (hit.transform.gameObject.TryGetComponent(out PlayerManager pm))
+                {
+                    Debug.Log(pm.name);
+                    pm.TakeDamage(5);
+                }
+            }
+
             Debug.Log("AttackEnding");
         }
 

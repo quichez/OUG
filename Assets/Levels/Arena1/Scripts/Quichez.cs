@@ -24,6 +24,9 @@ namespace Quichez
             Current = new NetworkVariableInt(Mathf.Min(max,curr));
             Regeneration = new NetworkVariableInt(regen);
             RegenSpeed = new NetworkVariableFloat(regspeed);
+
+            regenTimer = new NetworkVariableFloat(0.0f);
+            isRegenerating = new NetworkVariableBool(false);
         }       
         
         public IEnumerator Regenerate(float delay)
@@ -61,6 +64,11 @@ namespace Quichez
 
         }
 
+        public void TakeDamage(int amount)
+        {
+            Current.Value -= amount;
+            Debug.Log(Current.Value);
+        }
 
     }
 

@@ -1807,11 +1807,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5029257686071506380}
+  - component: {fileID: -7341234994613678166}
   - component: {fileID: 5982813086899345129}
   - component: {fileID: 5516625377402229144}
   - component: {fileID: 7551093636917751844}
   - component: {fileID: 5029257686071506379}
-  - component: {fileID: -7341234994613678166}
   - component: {fileID: 4966744943462974559}
   - component: {fileID: 7492602342205072186}
   m_Layer: 0
@@ -1837,6 +1837,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-7341234994613678166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5029257686071506376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0e8df85fa83a134d9b0041e8716b52b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statTemplates: {fileID: 11400000, guid: a980dd28df001be49a64b9e595dafc09, type: 2}
 --- !u!114 &5982813086899345129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1950,18 +1963,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1.35, z: 0}
---- !u!114 &-7341234994613678166
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5029257686071506376}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0e8df85fa83a134d9b0041e8716b52b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &4966744943462974559
 MonoBehaviour:
   m_ObjectHideFlags: 0

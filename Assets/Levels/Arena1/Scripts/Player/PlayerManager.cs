@@ -16,8 +16,9 @@ namespace JAM
         private PlayerAnimationManager animationManager;
         private HealthBar healthBar;
 
+        [SerializeField]
         private HealthSystem healthSystem;
-      
+
         public void OnEnable()
         {
             if (healthSystem == null)
@@ -36,8 +37,10 @@ namespace JAM
 
         private void OnHealthChanged(int previousValue, int newValue)
         {
+            Debug.Log("Health Changed!");
             if(IsOwner && IsClient)
             {                
+                //Time.deltaTime * 2.0f => Regeneration is calculated every other frame
                 StartCoroutine(healthSystem.Regenerate(Time.deltaTime * 2.0f));
                 healthBar.UpdateHealthBar(healthSystem);
             }
@@ -50,14 +53,12 @@ namespace JAM
                 GetComponentInChildren<CameraParent>().gameObject.SetActive(false);
 
             }
-            else
-            {
-                healthBar = FindObjectOfType<HealthBar>();
-                healthBar.UpdateHealthBar(healthSystem);               
-                inputManager = GetComponent<PlayerInputManager>();
-                movementManager = GetComponent<PlayerMovementManager>();
-                animationManager = GetComponentInChildren<PlayerAnimationManager>();
-            }            
+
+            healthBar = FindObjectOfType<HealthBar>();
+            healthBar.UpdateHealthBar(healthSystem);               
+            inputManager = GetComponent<PlayerInputManager>();
+            movementManager = GetComponent<PlayerMovementManager>();
+            animationManager = GetComponentInChildren<PlayerAnimationManager>();            
         }
 
         void Update()
@@ -67,7 +68,6 @@ namespace JAM
             inputManager.HandleAllInputs();
             movementManager.HandleAllMovement();
             animationManager.HandleAnimations();
-            Debug.Log(healthBar);
         }
 
         public void TakeDamage(int damage)
@@ -76,6 +76,7 @@ namespace JAM
             {
                 healthSystem.TakeDamage(5);                
                 healthBar.UpdateHealthBar(healthSystem);
+                StartCoroutine(healthSystem.Regenerate(Time.deltaTime * 2.0f));
             }
         }
     }

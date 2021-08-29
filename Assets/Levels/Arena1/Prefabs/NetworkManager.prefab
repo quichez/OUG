@@ -53,6 +53,8 @@ MonoBehaviour:
     RegisteredScenes:
     - Arena1
     - New Scene
+    - 
+    - Hell
     AllowRuntimeSceneChanges: 0
     NetworkPrefabs:
     - Prefab: {fileID: 5029257686071506376, guid: 8c956826eb99fac41bf0689fb67d9f4e, type: 3}

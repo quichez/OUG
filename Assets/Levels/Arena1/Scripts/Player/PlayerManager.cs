@@ -14,16 +14,17 @@ namespace JAM
         private PlayerInputManager inputManager;
         private PlayerMovementManager movementManager;
         private PlayerAnimationManager animationManager;
-        private HealthBar healthBar;
+        private HealthBar healthBar => FindObjectOfType<HealthBar>();
 
         [SerializeField]
         private HealthSystem healthSystem;
 
+        #region OnEnable and OnDisable
         public void OnEnable()
         {
             if (healthSystem == null)
             {
-                healthSystem = new HealthSystem(100,100,1,0.5f);
+                healthSystem = new HealthSystem(100,90,1,0.5f);
                 StartCoroutine(healthSystem.Regenerate(Time.deltaTime * 2.0f));
             }
 
@@ -34,13 +35,13 @@ namespace JAM
         {
             healthSystem.Current.OnValueChanged -= OnHealthChanged;
         }
+        #endregion
 
         private void OnHealthChanged(int previousValue, int newValue)
         {
-            Debug.Log("Health Changed!");
             if(IsOwner && IsClient)
             {                
-                //Time.deltaTime * 2.0f => Regeneration is calculated every other frame
+                //Time.deltaTime * 2.0f ==> Regeneration is calculated every other frame
                 StartCoroutine(healthSystem.Regenerate(Time.deltaTime * 2.0f));
                 healthBar.UpdateHealthBar(healthSystem);
             }
@@ -51,14 +52,15 @@ namespace JAM
             if (!IsLocalPlayer)
             {
                 GetComponentInChildren<CameraParent>().gameObject.SetActive(false);
-
             }
-
-            healthBar = FindObjectOfType<HealthBar>();
-            healthBar.UpdateHealthBar(healthSystem);               
-            inputManager = GetComponent<PlayerInputManager>();
-            movementManager = GetComponent<PlayerMovementManager>();
-            animationManager = GetComponentInChildren<PlayerAnimationManager>();            
+            else
+            {
+                Debug.Log(GetComponent<NetworkObject>().NetworkObjectId);             
+                healthBar.UpdateHealthBar(healthSystem);               
+                inputManager = GetComponent<PlayerInputManager>();
+                movementManager = GetComponent<PlayerMovementManager>();
+                animationManager = GetComponentInChildren<PlayerAnimationManager>();            
+            }
         }
 
         void Update()
@@ -72,7 +74,7 @@ namespace JAM
 
         public void TakeDamage(int damage)
         {
-            if (!IsLocalPlayer)
+            if (IsLocalPlayer)
             {
                 healthSystem.TakeDamage(5);                
                 healthBar.UpdateHealthBar(healthSystem);

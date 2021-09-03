@@ -21,4 +21,9 @@ public class HealthBar : MonoBehaviour
         text.text = healthSystem.Current.Value.ToString() + "/"
             + healthSystem.Maximum.Value.ToString();
     }
+
+    private void Start()
+    {
+        Debug.Log("Health Bar Started");
+    }
 }

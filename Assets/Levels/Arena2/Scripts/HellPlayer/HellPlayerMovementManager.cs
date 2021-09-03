@@ -7,13 +7,8 @@ using MLAPI.NetworkVariable;
 using UnityEngine.InputSystem;
 
 public class HellPlayerMovementManager : NetworkBehaviour
-{
-    public NetworkVariableVector3 Position = new NetworkVariableVector3(new NetworkVariableSettings
-    {
-        WritePermission = NetworkVariablePermission.ServerOnly,
-        ReadPermission = NetworkVariablePermission.Everyone
-    });
-    [SerializeField] Camera _cam;
+{   
+    [SerializeField] Transform _cam;
 
     CharacterController _charController => GetComponent<CharacterController>();
     PlayerInputControls _inputs;
@@ -25,33 +20,18 @@ public class HellPlayerMovementManager : NetworkBehaviour
 
     private void Move()
     {
-        if (NetworkManager.Singleton.IsServer)
-        {            
-            Vector3 move = new Vector3(_moveReq.x, 0.0f, _moveReq.y);
-            move = _cam.transform.right * move.x + _cam.transform.forward * move.z;
-            move.y = 0.0f;
-            transform.position += move * Time.deltaTime * 5;
-            Position.Value = transform.position;
-        }
-        else
-        {           
-            // Essentially the same as above.
-            MovePlayerServerRpc();
-        }
+        Vector3 move = new Vector3(_moveReq.x, 0.0f, _moveReq.y);
+        move = Vector3.ClampMagnitude(move, 1.0f);
+        _charController.Move(move * 5.0f * Time.deltaTime);
     }
 
     [ServerRpc]
     private void MovePlayerServerRpc(ServerRpcParams rpcParams = default)
     {
-        Debug.Log(id);
         Vector3 move = new Vector3(_moveReq.x, 0.0f, _moveReq.y);
-        move = _cam.transform.right * move.x + _cam.transform.forward * move.z;
-        move.y = 0.0f;
-        Position.Value  += move * Time.deltaTime * 5;
-        transform.position = Position.Value;
+        move = Vector3.ClampMagnitude(move, 1.0f);
+        _charController.Move(move * 5.0f * Time.deltaTime);
     }
-
-
 
 
 
@@ -75,12 +55,16 @@ public class HellPlayerMovementManager : NetworkBehaviour
 
     public override void NetworkStart()
     {
-        Debug.Log(NetworkManager.Singleton.IsServer);
-        Position.Value = transform.position;
+        if (!IsLocalPlayer)
+        {
+            _cam.GetComponent<AudioListener>().enabled = false;
+            _cam.GetComponent<Camera>().enabled = false;
+        }
     }
 
     private void Update()
     {
-        Move();
+        if(IsLocalPlayer)
+            Move();
     }
 }
